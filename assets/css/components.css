@@ -1,0 +1,208 @@
+/* ==========================================================================
+   Shared components — navbar, footer (reused across every page)
+   ========================================================================== */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: var(--space-md) 0;
+  transition: padding var(--duration-fast) var(--ease-out);
+}
+
+/* The blurred backdrop lives on a pseudo-element, not on .navbar itself —
+   backdrop-filter on .navbar would create a new containing block and break
+   the full-screen mobile menu's position:fixed once the page is scrolled. */
+.navbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(13, 15, 18, 0);
+  border-bottom: 1px solid transparent;
+  transition: background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
+}
+
+.navbar.is-scrolled::before {
+  background: rgba(13, 15, 18, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.navbar.is-scrolled {
+  padding: var(--space-sm) 0;
+}
+
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.navbar__logo {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.navbar__links a {
+  position: relative;
+  color: var(--color-text-muted);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.navbar__links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 1px;
+  background: var(--color-sage);
+  transition: width var(--duration-fast) var(--ease-out);
+}
+
+.navbar__links a:hover {
+  color: var(--color-text);
+}
+
+.navbar__links a:hover::after {
+  width: 100%;
+}
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.navbar__social {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.navbar__social:hover {
+  border-color: var(--color-sage);
+  color: var(--color-sage);
+}
+
+.navbar__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.navbar__toggle span {
+  display: block;
+  width: 14px;
+  height: 1px;
+  margin-inline: auto;
+  background: var(--color-text);
+  transition: transform var(--duration-fast) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out);
+}
+
+.navbar__toggle.is-active span:nth-child(1) {
+  transform: translateY(3px) rotate(45deg);
+}
+
+.navbar__toggle.is-active span:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar__toggle.is-active span:nth-child(3) {
+  transform: translateY(-3px) rotate(-45deg);
+}
+
+@media (max-width: 860px) {
+  .navbar__toggle {
+    display: flex;
+  }
+
+  .navbar__links {
+    position: fixed;
+    inset: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    background: var(--color-bg);
+    font-size: 1.4rem;
+    transform: translateY(-12px);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform var(--duration-base) var(--ease-out),
+      opacity var(--duration-base) var(--ease-out),
+      visibility var(--duration-base) var(--ease-out);
+  }
+
+  .navbar__links.is-open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .navbar__social {
+    display: none;
+  }
+}
+
+/* Footer / Connect section shares typography with the rest of the page */
+.footer {
+  border-top: 1px solid var(--color-border);
+  padding-block: var(--space-lg);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.footer__socials {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.footer__socials a {
+  color: var(--color-text-muted);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.footer__socials a:hover {
+  color: var(--color-sage);
+}
